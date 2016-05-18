@@ -4,6 +4,7 @@
 iisnode.yml
 npm-debug.log
 
+.ssh
 db/shortly.sqlite
 node_modules
 public/dist
