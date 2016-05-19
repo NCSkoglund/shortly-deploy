@@ -49,7 +49,7 @@ module.exports = function(grunt) {
       },
       target: {
         files: {
-          'styles.css': ['public/*.css']
+          'public/styles.min.css': ['public/*.css']
         }
       }
     },
@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-       // 
+        command: 'git push live master'
       }
     },
   });
@@ -88,32 +88,40 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
 
+  ////////////////////////////////////////////////////
+  // Main grunt tasks
+  ////////////////////////////////////////////////////
+  
+
+  // set up live updates on development server
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
   });
 
-  ////////////////////////////////////////////////////
-  // Main grunt tasks
-  ////////////////////////////////////////////////////
-
+  // run mocha tests
   grunt.registerTask('test', [
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat', 'uglify'
-  ]);
+  // prep files for deployment w/ concat & uglify
+  grunt.registerTask('build', ['concat', 'uglify']);
 
-  grunt.registerTask('upload', function(n) {
-    if (grunt.option('prod')) {
-      grunt.task.run('build');
-    } else {
-      grunt.task.run([ 'server-dev' ]);
-    }
-  });
-
+  // test and lint prior to git push
   grunt.registerTask('deploy', function(n) {    
     grunt.task.run(['test', 'eslint']);
   });
 
-
+  // runs post-build (concat, uglify)
+  grunt.registerTask('upload', function(n) {
+    if (grunt.option('prod')) {
+      grunt.task.run('deploy');  // test, eslint
+      grunt.task.run('shell'); // git push live master
+    } else {
+      grunt.task.run([ 'server-dev' ]); // set up nodemon and watch
+    }
+  });
+  
+  // CLI: npm start:  
+  //   runs build (prep files for deployment w/ concat & uglify)
+  //   runs grunt upload 
 };
