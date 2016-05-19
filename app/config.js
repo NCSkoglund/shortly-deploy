@@ -1,23 +1,25 @@
 var path = require('path');
-var mongoose = require('mongoose');
+var db = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017');
+db.connect('mongodb://127.0.0.1:27017');
 
-var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log.bind(console, 'Hooray');
 });
-//({
-//   client: 'mongodb',
-//   connect: {
-//     filename: path.join(__dirname, '../db/shortly.mongo')
-//   },
-//   useNullAsDefault: true
-// });
 
+db.userSchema = mongoose.Schema({ 
+  username: String,
+  password: String,
+  timestamp: Date
+});
 
-
+db.linkSchema = mongoose.Schema({
+  baseUrl: String,
+  title: String,
+  visits: Number,
+  timestamp: Date
+});
 
 // var db = require('bookshelf')(knex);
 
@@ -36,7 +38,6 @@ db.once('open', function() {
 //     });
 //   }
 // });
-
 // db.knex.schema.hasTable('users').then(function(exists) {
 //   if (!exists) {
 //     db.knex.schema.createTable('users', function (user) {
@@ -50,4 +51,11 @@ db.once('open', function() {
 //   }
 // });
 
+//({
+//   client: 'mongodb',
+//   connect: {
+//     filename: path.join(__dirname, '../db/shortly.mongo')
+//   },
+//   useNullAsDefault: true
+// });
 module.exports = db;
