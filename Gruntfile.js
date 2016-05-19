@@ -43,10 +43,10 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
-      options: {
-        shorthandCompacting: false,
-        roundingPrecision: -1
-      },
+      // options: {
+      //   shorthandCompacting: false,
+      //   roundingPrecision: -1
+      // },
       target: {
         files: {
           'public/styles.min.css': ['public/*.css']
@@ -104,17 +104,14 @@ module.exports = function(grunt) {
   ]);
 
   // prep files for deployment w/ concat & uglify
-  grunt.registerTask('build', ['concat', 'uglify']);
+  grunt.registerTask('build', ['concat', 'uglify', 'cssmin']);
 
-  // test and lint prior to git push
-  grunt.registerTask('deploy', function(n) {    
-    grunt.task.run(['test', 'eslint']);
-  });
+  grunt.registerTask('deploy', ['test', 'eslint']);
 
   // runs post-build (concat, uglify)
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      grunt.task.run('deploy');  // test, eslint
+      grunt.task.run('deploy');
       grunt.task.run('shell'); // git push live master
     } else {
       grunt.task.run([ 'server-dev' ]); // set up nodemon and watch

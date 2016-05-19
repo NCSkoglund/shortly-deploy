@@ -8,6 +8,8 @@ npm-debug.log
 db/shortly.sqlite
 node_modules
 public/dist
+public/styles.min.css
+
 
 # Icon must ends with two \r.
 Icon
