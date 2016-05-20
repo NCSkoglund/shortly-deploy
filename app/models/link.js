@@ -1,8 +1,17 @@
-var db = require('../config');
+// var db = require('../config');
+var mongoose = require('mongoose');
 var crypto = require('crypto');
 
+linkSchema = mongoose.Schema({
+  baseUrl: String,
+  title: String,
+  visits: Number,
+  timestamp: Date
+});
 
-var Link = db.model('Link', db.linkSchema);
+var Link = mongoose.model('Link', linkSchema);
+
+module.exports = Link;
 
 // var Link = db.Model.extend({
 //   tableName: 'urls',
@@ -18,12 +27,3 @@ var Link = db.model('Link', db.linkSchema);
 //     });
 //   }
 // });
-
-exports.linkSchema = mongoose.Schema({
-  baseUrl: String,
-  title: String,
-  visits: Number,
-  timestamp: Date
-});
-
-module.exports = Link;

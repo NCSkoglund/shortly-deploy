@@ -5,7 +5,7 @@ iisnode.yml
 npm-debug.log
 
 .ssh
-db/shortly.sqlite
+db
 node_modules
 public/dist
 public/styles.min.css
