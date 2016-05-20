@@ -19,4 +19,11 @@ var Link = db.model('Link', db.linkSchema);
 //   }
 // });
 
+exports.linkSchema = mongoose.Schema({
+  baseUrl: String,
+  title: String,
+  visits: Number,
+  timestamp: Date
+});
+
 module.exports = Link;

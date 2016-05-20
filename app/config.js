@@ -2,59 +2,18 @@ var path = require('path');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt-nodejs');
-var mongo = require('mongodb');
-
-mongoose.createConnection('mongodb://127.0.0.1:27017');
+// var mongo = require('mongodb');
+console.log('you are here');
+mongoose.connect('mongodb://localhost/shortly');
 var db = mongoose.connection;
-// db.connect('mongodb://localhost:4568', function(err) {
-//   if (err) {
-//     console.error('error in connection', err);
-//   } else {
-//     console.log('yay.');
-//   }
-// });
-
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log.bind(console, 'Hooray');
+  console.log('Hooray');
 });
 
-db.userSchema = mongoose.Schema({ 
-  username: String,
-  password: String,
-  timestamp: Date
-});
 
-// newUser.hash(password);
-db.userSchema.methods.hash = function() {
-  var cipher = Promise.promisify(bcrypt.hash);
-  cipher(this.get(function() {
-    return this.password;
-  }), null, null).bind(this)
-  .then(function(hash) {
-    this.password = hash;
-  });
 
-  // return cipher(this.password, null, null).bind(this)
-  //   .then(function(hash) {
-  //     this.password = hash;
-  //     // set password on  our DB
-  //     // this.set('password', hash);
-  //   });
-};
 
-//   comparePassword: function(attemptedPassword, callback) {
-//     bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
-//       callback(isMatch);
-//     });
-//   },
-
-db.linkSchema = mongoose.Schema({
-  baseUrl: String,
-  title: String,
-  visits: Number,
-  timestamp: Date
-});
 
 // var db = require('bookshelf')(knex);
 
@@ -93,4 +52,4 @@ db.linkSchema = mongoose.Schema({
 //   },
 //   useNullAsDefault: true
 // });
-module.exports = db;
+// module.exports = db;
